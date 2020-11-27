@@ -1,10 +1,11 @@
+
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Fri Nov 20 21:40:35 2020
 
 @author: hendrasetiawan
-https://dash.plotly.com/interactive-graphing
 """
 
 
@@ -14,85 +15,22 @@ import dash_html_components as html
 import pandas as pd
 import plotly.express as px
 
-
-
-"""
-
-"""
-
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
 server = app.server
+df = pd.read_csv('https://plotly.github.io/datasets/country_indicators.csv')
 
-df = pd.read_csv('dashboardready1.csv')
-df = df.loc[df["Country Name"]!= "Equatorial Guinea"]
-df = df.loc[df["Country Name"]!= "Argentina"]
-df = df.loc[df["Country Name"]!= "Brazil"]
-df = df.loc[df["Country Name"]!= "Bulgaria"]
-df = df.loc[df["Country Name"]!= "Zimbabwe"]
-df = df.loc[df["Country Name"]!= "Angola"]
-df = df.loc[df["Country Name"]!= "Belarus"]
-df = df.loc[df["Country Name"]!= "Tajikistan"]
-df = df.loc[df["Country Name"]!= "Bahamas, The"]
-df = df.loc[df["Country Name"]!= "Mongolia"]
-df = df.loc[df["Country Name"]!= "Armenia"]
-df = df.loc[df["Country Name"]!= "Uruguay"]
-df = df.loc[df["Country Name"]!= "Romania"]
-df = df.loc[df["Country Name"]!= "Bolivia"]
-df = df.loc[df["Country Name"]!= "Trinidad and Tobago"]
-df = df.loc[df["Country Name"]!= "Azerbaijan"]
-df = df.loc[df["Country Name"]!= "Ukraine"]
-df = df.loc[df["Country Name"]!= 'Kyrgyz Republic']
-df = df.loc[df["Country Name"]!= 'Malawi']
-df = df.loc[df["Country Name"]!= 'Madagascar']
-df = df.loc[df["Country Name"]!= 'Colombia']
-dftimeseries=df.loc[(df['Indicator Name']=='Real interest rate (%)') & (df['Value'].isna())]
-x=dftimeseries["Country Name"]
 available_indicators = df['Indicator Name'].unique()
-dftimeseriesfinal = df[~df["Country Name"].isin(x)]
-available_country=dftimeseriesfinal["Country Name"].unique()
-
-
-
-import plotly.graph_objects as go 
-dfs = px.data.gapminder().query("year==2007")
-dffromwb = pd.read_csv('dashboardready1.csv')
-dffromwb=dffromwb.rename(columns={"Country Name": "country"})
-dffromwbbaddebt=dffromwb.loc[dffromwb['Indicator Name']=="Bank nonperforming loans to total gross loans (%)"]
-dffromwbbankcredit=dffromwb.loc[dffromwb['Indicator Name']=="Domestic credit to private sector by banks (% of GDP)"]
-dffromwbbaddebt=dffromwbbaddebt.fillna(0)
-dffromwbbankcredit=dffromwbbankcredit.fillna(0)
-dffromwbbaddebt=dffromwbbaddebt.rename(columns={"Value": "Bank nonperforming loans to total gross loans (%)"})
-dffromwbbankcredit=dffromwbbankcredit.rename(columns={"Value": "Domestic credit to private sector by banks (% of GDP)"})
-dfjoin = pd.merge(dfs, dffromwbbaddebt, on=['country'])
-
-
 
 app.layout = html.Div([
     html.Div([
-        html.Div([
-            html.H1('Navigate through Turbulent Economic Period Using Banking Credit as a Fuel for the Economy', style={'textAlign': 'center'}),
-            html.H4('(Cross Country and Past Economic Downturn Analysis)', style={'textAlign': 'center'}),
-            ], style={'display': 'inline-block', 'width': '100%'}),
-        html.P('In this pandemic, we should activate all of the resources that we have to get our economy back in a better position as soon as possible. Bank loans are very important tool because we know that in the Covid19 pandemic aggregate of demand is taking a hard hit. To fight this shock, Governments tend to lower their interest rate to help the economy. The scatter plot quadrants of real interest rate, Lending Interest rate and GPD annual growth show the movement to a lower level of interest rate during and after the economic downturn', className='my-class', id='my-p-element'),
-    ], style={
-        'borderBottom': 'thin lightgrey solid',
-        'backgroundColor': 'rgb(250, 250, 250)',
-        'padding': '10px 5px'
-    }),
-    
-    
-    html.Div([
-        
-        
 
         html.Div([
             dcc.Dropdown(
                 id='crossfilter-xaxis-column',
                 options=[{'label': i, 'value': i} for i in available_indicators],
-                value='Real interest rate (%)'
+                value='Fertility rate, total (births per woman)'
             ),
             dcc.RadioItems(
                 id='crossfilter-xaxis-type',
@@ -106,8 +44,8 @@ app.layout = html.Div([
         html.Div([
             dcc.Dropdown(
                 id='crossfilter-yaxis-column',
-                options=[{'label': 'GDP growth (annual %)', 'value': 'GDP growth (annual %)'}],
-                value='GDP growth (annual %)'
+                options=[{'label': i, 'value': i} for i in available_indicators],
+                value='Life expectancy at birth, total (years)'
             ),
             dcc.RadioItems(
                 id='crossfilter-yaxis-type',
@@ -125,106 +63,25 @@ app.layout = html.Div([
     html.Div([
         dcc.Graph(
             id='crossfilter-indicator-scatter',
-            hoverData={'points': [{'customdata': 'Indonesia'}]}
+            hoverData={'points': [{'customdata': 'Japan'}]}
         )
     ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
-   
-    html.Div([ html.H4(' ') ], style={'display': 'inline-block', 'width': '2%'}),
-    
     html.Div([
-         html.H4('Interpretation'),
-         html.P('From this scatter plot in 1997, we know that most of the countries were hovering between 0% to 10% annual GDP growth and between 0% to 10% real interest rate.', className='v', id='v'),
-         html.P('If you change the slider to 1998, the graph showed that many countries fell down to lower annual GDP growth. This means that countries with high annual GDP growth a year before experienced a downward pressure.', className='c', id='c'),
-         html.P('In 1999 (year after economic downturn), we can notice that there is an increase in the number of countries with low real interest rate. This can be a sign that governments try to increase bank lending by lowering their interest rates.', className='f', id='f'),
-         html.P('Similar trend is happening with Lending Interest Rates and in 2007 - 2008 Period', className='g', id='g'),
-         html.Br(),
-         html.Br(),
-         html.Br(),
-         ], style={'display': 'inline-block', 'width': '30%'}),
-    
-     html.Div(dcc.Slider(
+        dcc.Graph(id='x-time-series'),
+        dcc.Graph(id='y-time-series'),
+    ], style={'display': 'inline-block', 'width': '49%'}),
+
+    html.Div(dcc.Slider(
         id='crossfilter-year--slider',
         min=df['Year'].min(),
         max=df['Year'].max(),
         value=df['Year'].max(),
         marks={str(year): str(year) for year in df['Year'].unique()},
         step=None
-    ), style={'width': '49%', 'padding': '0px 20px 20px 20px'}),
-     
-     
-    
-    html.Div([
-        
-        html.Div([
-            html.H4('Investigation to Individual Country Time Series of Real Interest Rates and Lending Interest Rates'),
-            html.P('To give a solid evidence that countries in the world were trying to lower the rates as an effort to increase bank lending in the turbulent times, We can see from the time series variable below, that almost everytime GDP Annual Growth decline, lending interest rate and real interest rate is decline mostly in the year of crisis and one year after (Crisis Period 1997-1999 and 2007-2009. For most Asian Region, This is happening in 1997 - 1999 period and for most European, North America,South America and Mediterania Region, This trend happening in 2007 and 2009 period )')
-        
-        ], style={
-        'borderBottom': 'thin lightgrey solid',
-        'backgroundColor': 'rgb(250, 250, 250)',
-        'padding': '10px 5px'
-        }),
-        html.Div([
-             dcc.Dropdown(
-                id='countryselection',
-                options=[{'label': i, 'value': i} for i in available_country],
-                value='Indonesia'
-            ),
-            dcc.Dropdown(options=[{'label': 'Real Interest Rates', 'value': 'Real interest rate (%)'},
-                                        {'label': 'Lending Interest Rates', 'value': 'Lending interest rate (%)'}],
-                               id='vartimeseriesx',
-                               value='Real interest rate (%)'),
-            
-            ], style={'display': 'inline-block', 'width': '100%'}),
-    
-    ]),   
-    html.Div([
-        dcc.Graph(id='x-time-series')
-    ], style={'width': '49%', 'display': 'inline-block'}), 
-    html.Div([
-          dcc.Graph(id='y-time-series')
-         ], style={'display': 'inline-block', 'width': '49%'}),
-
-   
-      
-    html.Div([
-        html.H1('Banking Industry Bad Debt Heatmap', style={'textAlign': 'center'}),
-        dcc.RadioItems(id='mapyear',
-                       options=[
-                           {'label': '2007', 'value': '2007'},
-                           {'label': '2008', 'value': '2008'},
-                           {'label': '2009', 'value': '2009'}
-                           ],
-                       value='2007',
-                       labelStyle={'display': 'inline-block'}),  
-        dcc.Graph(id="heatmap"),
-        html.P('From the heat maps, we notice that bad debt was cool in 2007. Then when the downturn happened in 2008, the heat started to increase, and finally most of the country bad debt cooled down in 2009. This means that controlling the bad debt is also a part of the game plan when creating counter cyclical policy in an economic downturn.'),
-        html.P('In conclusion, the graph and data from  GDP growth (annual %), real interest rate (%), domestic credit to the private sector by banks (% of GDP), lending interest rate (%), and bank non-performing loans to total gross loans (%) support my argument that reasonable growth of bank loans and manageable non-performing loans will help the economy recover after a downturn.')
-    ],style={'width': '100%', 'float': 'right', 'display': 'inline-block'})
-
-
+    ), style={'width': '49%', 'padding': '0px 20px 20px 20px'})
 ])
 
-            
-@app.callback(
-    dash.dependencies.Output("heatmap", "figure"), 
-    [dash.dependencies.Input("mapyear", "value")])
 
-def display_map(mapyear):
-    
-    dfjoinyearselected=dfjoin.loc[dfjoin['Year']==int(mapyear)]
-
-    fig = px.choropleth(dfjoinyearselected, locations="iso_alpha",
-                    color="Bank nonperforming loans to total gross loans (%)", # lifeExp is a column of gapminder
-                    hover_name="country", # column to add to hover information
-                    color_continuous_scale=px.colors.sequential.OrRd)
-    return fig            
-            
-            
-            
-            
-
-        
 @app.callback(
     dash.dependencies.Output('crossfilter-indicator-scatter', 'figure'),
     [dash.dependencies.Input('crossfilter-xaxis-column', 'value'),
@@ -232,7 +89,6 @@ def display_map(mapyear):
      dash.dependencies.Input('crossfilter-xaxis-type', 'value'),
      dash.dependencies.Input('crossfilter-yaxis-type', 'value'),
      dash.dependencies.Input('crossfilter-year--slider', 'value')])
-
 def update_graph(xaxis_column_name, yaxis_column_name,
                  xaxis_type, yaxis_type,
                  year_value):
@@ -275,35 +131,26 @@ def create_time_series(dff, axis_type, title):
 
 @app.callback(
     dash.dependencies.Output('x-time-series', 'figure'),
-    [dash.dependencies.Input('countryselection', 'value'),
-     dash.dependencies.Input('vartimeseriesx', 'value'),
-     dash.dependencies.Input('vartimeseriesx', 'value')
-     ])
-
-def update_x_timeseries(hoverData, yaxis_column_name, axis_type):
-    country_name = hoverData
+    [dash.dependencies.Input('crossfilter-indicator-scatter', 'hoverData'),
+     dash.dependencies.Input('crossfilter-xaxis-column', 'value'),
+     dash.dependencies.Input('crossfilter-xaxis-type', 'value')])
+def update_y_timeseries(hoverData, xaxis_column_name, axis_type):
+    country_name = hoverData['points'][0]['customdata']
     dff = df[df['Country Name'] == country_name]
-    dff = dff[dff['Indicator Name'] == yaxis_column_name]
-    axis_type='Linear'
-    title = '<b>{}</b><br>{}'.format(country_name, yaxis_column_name)
+    dff = dff[dff['Indicator Name'] == xaxis_column_name]
+    title = '<b>{}</b><br>{}'.format(country_name, xaxis_column_name)
     return create_time_series(dff, axis_type, title)
-
-
 
 
 @app.callback(
     dash.dependencies.Output('y-time-series', 'figure'),
-    [dash.dependencies.Input('countryselection', 'value'),
-     dash.dependencies.Input('crossfilter-yaxis-column', 'value')
-     ])
-
-def update_y_timeseries(hoverData, xaxis_column_name):
-    country_name = hoverData
-    dff = df[df['Country Name'] == country_name]
-    dff = dff[dff['Indicator Name'] == 'GDP growth (annual %)']
-    axis_type='Linear'
-    title = '<b>{}</b><br>{}'.format(country_name, xaxis_column_name)
-    return create_time_series(dff, axis_type, title)
+    [dash.dependencies.Input('crossfilter-indicator-scatter', 'hoverData'),
+     dash.dependencies.Input('crossfilter-yaxis-column', 'value'),
+     dash.dependencies.Input('crossfilter-yaxis-type', 'value')])
+def update_x_timeseries(hoverData, yaxis_column_name, axis_type):
+    dff = df[df['Country Name'] == hoverData['points'][0]['customdata']]
+    dff = dff[dff['Indicator Name'] == yaxis_column_name]
+    return create_time_series(dff, axis_type, yaxis_column_name)
 
 
 if __name__ == '__main__':
