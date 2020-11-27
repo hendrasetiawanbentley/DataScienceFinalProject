@@ -14,6 +14,10 @@ top_markdown_text = '''
 This is my first deployed app
 '''
 
+df = pd.read_csv('dashboardready1.csv')
+
+
+
 app.layout = html.Div([
 
     dcc.Markdown(children=top_markdown_text),
