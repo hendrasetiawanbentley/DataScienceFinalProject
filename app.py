@@ -24,6 +24,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
+server = app.server
+
 df = pd.read_csv('dashboardready1.csv')
 df = df.loc[df["Country Name"]!= "Equatorial Guinea"]
 df = df.loc[df["Country Name"]!= "Argentina"]
@@ -337,6 +339,5 @@ def update_y_timeseries(hoverData, xaxis_column_name):
     return create_time_series(dff, axis_type, title)
 
 
-server = app.server
 if __name__ == '__main__':
     app.run_server(debug=True)
