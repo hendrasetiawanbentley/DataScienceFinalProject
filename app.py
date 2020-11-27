@@ -70,17 +70,6 @@ dfjoin = pd.merge(dfs, dffromwbbaddebt, on=['country'])
 
 
 
-import quandl
-# pandas for data manipulation
-import pandas as pd
-from matplotlib import pyplot as plt
-from matplotlib.dates import MonthLocator, DateFormatter
-quandl.ApiConfig.api_key = 'zNSVkNFKh_WNvSTkbvb9'
-# Retrieve Morgan Stanly data from Quandl
-morgan= quandl.get('WIKI/MS')
-# Retrieve the Citigroup data from Quandl
-gm = quandl.get('WIKI/C')
-
 app.layout = html.Div([
     html.Div([
         html.Div([
@@ -197,20 +186,7 @@ app.layout = html.Div([
          ], style={'display': 'inline-block', 'width': '49%'}),
 
    
-      html.Div([
-        html.H4('Banking Industry Itself'),
-        html.P('Based on the data, I provide evidence that most of the countries try to lower its interest rate and push more banking lending. In the otherside, Policy makers also need to maintain the banking industry itself to make sure that economic crisis not bring a financial system catastrophy'),
-        html.P('The first signal is the banking stock. We can see how the movement of banking stock in time of economic donwturn')
-    ], style={'width': '100%', 'display': 'inline-block'}),
       
-      dcc.Dropdown(id='ticker',options=[{'label': 'Morgan Stanley', 'value':1},
-                                     {'label': 'Citigroup', 'value':'gm'}],
-                            value='morgan'),
-      
-      dcc.Graph(id="time-series-chart"),
-      html.P('We can see that the banking stock is taking a hit in two period of crisis 1997 - 1999 and 2007 - 2009. Therefore, Policy maker should keep and eye in the condition of the banking system while using it to help economic recovery. Goverment should focus in controling Bad Debt. I will show you the visualization of Bad Debt in time of crisis'),
-
-
     html.Div([
         html.H1('Banking Industry Bad Debt Heatmap', style={'textAlign': 'center'}),
         dcc.RadioItems(id='mapyear',
@@ -247,15 +223,6 @@ def display_map(mapyear):
             
             
             
-@app.callback(
-    dash.dependencies.Output("time-series-chart", "figure"), 
-    [dash.dependencies.Input("ticker", "value")])
-
-def display_time_series(ticker):
-    fig = px.line(morgan, x=morgan.index, y=morgan['Open'])
-    if ticker=="gm":
-        fig = px.line(gm, x=gm.index, y=gm['Open'])
-    return fig
 
         
 @app.callback(
