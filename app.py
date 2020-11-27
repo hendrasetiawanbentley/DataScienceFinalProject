@@ -42,6 +42,19 @@ available_indicators = df['Indicator Name'].unique()
 dftimeseriesfinal = df[~df["Country Name"].isin(x)]
 available_country=dftimeseriesfinal["Country Name"].unique()
 
+import plotly.graph_objects as go 
+dfs = px.data.gapminder().query("year==2007")
+dffromwb = pd.read_csv('dashboardready1.csv')
+dffromwb=dffromwb.rename(columns={"Country Name": "country"})
+dffromwbbaddebt=dffromwb.loc[dffromwb['Indicator Name']=="Bank nonperforming loans to total gross loans (%)"]
+dffromwbbankcredit=dffromwb.loc[dffromwb['Indicator Name']=="Domestic credit to private sector by banks (% of GDP)"]
+dffromwbbaddebt=dffromwbbaddebt.fillna(0)
+dffromwbbankcredit=dffromwbbankcredit.fillna(0)
+dffromwbbaddebt=dffromwbbaddebt.rename(columns={"Value": "Bank nonperforming loans to total gross loans (%)"})
+dffromwbbankcredit=dffromwbbankcredit.rename(columns={"Value": "Domestic credit to private sector by banks (% of GDP)"})
+dfjoin = pd.merge(dfs, dffromwbbaddebt, on=['country'])
+
+
 
 
 
