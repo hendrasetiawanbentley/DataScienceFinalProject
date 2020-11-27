@@ -22,7 +22,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-df = pd.read_csv('dashboardready1.csv')
+url = 'https://raw.githubusercontent.com/hendrasetiawanbentley/DataScienceFinalProject/master/dashboardready1.csv'
+df = pd.read_csv(url)
 df = df.loc[df["Country Name"]!= "Equatorial Guinea"]
 df = df.loc[df["Country Name"]!= "Argentina"]
 df = df.loc[df["Country Name"]!= "Brazil"]
