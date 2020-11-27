@@ -68,8 +68,150 @@ gm = quandl.get('WIKI/C')
 
 
 app.layout = html.Div([
+    html.Div([
+        html.Div([
+            html.H1('Navigate through Turbulent Economic Period Using Banking Credit as a Fuel for the Economy', style={'textAlign': 'center'}),
+            html.H4('(Cross Country and Past Economic Downturn Analysis)', style={'textAlign': 'center'}),
+            ], style={'display': 'inline-block', 'width': '100%'}),
+        html.P('In this pandemic, we should activate all of the resources that we have to get our economy back in a better position as soon as possible. Bank loans are very important tool because we know that in the Covid19 pandemic aggregate of demand is taking a hard hit. To fight this shock, Governments tend to lower their interest rate to help the economy. The scatter plot quadrants of real interest rate, Lending Interest rate and GPD annual growth show the movement to a lower level of interest rate during and after the economic downturn', className='my-class', id='my-p-element'),
+    ], style={
+        'borderBottom': 'thin lightgrey solid',
+        'backgroundColor': 'rgb(250, 250, 250)',
+        'padding': '10px 5px'
+    }),
+    
+    
+    html.Div([
+        
+        
 
-    dcc.Markdown(children=top_markdown_text),
+        html.Div([
+            dcc.Dropdown(
+                id='crossfilter-xaxis-column',
+                options=[{'label': i, 'value': i} for i in available_indicators],
+                value='Real interest rate (%)'
+            ),
+            dcc.RadioItems(
+                id='crossfilter-xaxis-type',
+                options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
+                value='Linear',
+                labelStyle={'display': 'inline-block'}
+            )
+        ],
+        style={'width': '49%', 'display': 'inline-block'}),
+
+        html.Div([
+            dcc.Dropdown(
+                id='crossfilter-yaxis-column',
+                options=[{'label': 'GDP growth (annual %)', 'value': 'GDP growth (annual %)'}],
+                value='GDP growth (annual %)'
+            ),
+            dcc.RadioItems(
+                id='crossfilter-yaxis-type',
+                options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
+                value='Linear',
+                labelStyle={'display': 'inline-block'}
+            )
+        ], style={'width': '49%', 'float': 'right', 'display': 'inline-block'})
+    ], style={
+        'borderBottom': 'thin lightgrey solid',
+        'backgroundColor': 'rgb(250, 250, 250)',
+        'padding': '10px 5px'
+    }),
+
+    html.Div([
+        dcc.Graph(
+            id='crossfilter-indicator-scatter',
+            hoverData={'points': [{'customdata': 'Indonesia'}]}
+        )
+    ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
+   
+    html.Div([ html.H4(' ') ], style={'display': 'inline-block', 'width': '2%'}),
+    
+    html.Div([
+         html.H4('Interpretation'),
+         html.P('From this scatter plot in 1997, we know that most of the countries were hovering between 0% to 10% annual GDP growth and between 0% to 10% real interest rate.', className='v', id='v'),
+         html.P('If you change the slider to 1998, the graph showed that many countries fell down to lower annual GDP growth. This means that countries with high annual GDP growth a year before experienced a downward pressure.', className='c', id='c'),
+         html.P('In 1999 (year after economic downturn), we can notice that there is an increase in the number of countries with low real interest rate. This can be a sign that governments try to increase bank lending by lowering their interest rates.', className='f', id='f'),
+         html.P('Similar trend is happening with Lending Interest Rates and in 2007 - 2008 Period', className='g', id='g'),
+         html.Br(),
+         html.Br(),
+         html.Br(),
+         ], style={'display': 'inline-block', 'width': '30%'}),
+    
+     html.Div(dcc.Slider(
+        id='crossfilter-year--slider',
+        min=df['Year'].min(),
+        max=df['Year'].max(),
+        value=df['Year'].max(),
+        marks={str(year): str(year) for year in df['Year'].unique()},
+        step=None
+    ), style={'width': '49%', 'padding': '0px 20px 20px 20px'}),
+     
+     
+    
+    html.Div([
+        
+        html.Div([
+            html.H4('Investigation to Individual Country Time Series of Real Interest Rates and Lending Interest Rates'),
+            html.P('To give a solid evidence that countries in the world were trying to lower the rates as an effort to increase bank lending in the turbulent times, We can see from the time series variable below, that almost everytime GDP Annual Growth decline, lending interest rate and real interest rate is decline mostly in the year of crisis and one year after (Crisis Period 1997-1999 and 2007-2009. For most Asian Region, This is happening in 1997 - 1999 period and for most European, North America,South America and Mediterania Region, This trend happening in 2007 and 2009 period )')
+        
+        ], style={
+        'borderBottom': 'thin lightgrey solid',
+        'backgroundColor': 'rgb(250, 250, 250)',
+        'padding': '10px 5px'
+        }),
+        html.Div([
+             dcc.Dropdown(
+                id='countryselection',
+                options=[{'label': i, 'value': i} for i in available_country],
+                value='Indonesia'
+            ),
+            dcc.Dropdown(options=[{'label': 'Real Interest Rates', 'value': 'Real interest rate (%)'},
+                                        {'label': 'Lending Interest Rates', 'value': 'Lending interest rate (%)'}],
+                               id='vartimeseriesx',
+                               value='Real interest rate (%)'),
+            
+            ], style={'display': 'inline-block', 'width': '100%'}),
+    
+    ]),   
+    html.Div([
+        dcc.Graph(id='x-time-series')
+    ], style={'width': '49%', 'display': 'inline-block'}), 
+    html.Div([
+          dcc.Graph(id='y-time-series')
+         ], style={'display': 'inline-block', 'width': '49%'}),
+
+   
+      html.Div([
+        html.H4('Banking Industry Itself'),
+        html.P('Based on the data, I provide evidence that most of the countries try to lower its interest rate and push more banking lending. In the otherside, Policy makers also need to maintain the banking industry itself to make sure that economic crisis not bring a financial system catastrophy'),
+        html.P('The first signal is the banking stock. We can see how the movement of banking stock in time of economic donwturn')
+    ], style={'width': '100%', 'display': 'inline-block'}),
+      
+      dcc.Dropdown(id='ticker',options=[{'label': 'Morgan Stanley', 'value':1},
+                                     {'label': 'Citigroup', 'value':'gm'}],
+                            value='morgan'),
+      
+      dcc.Graph(id="time-series-chart"),
+      html.P('We can see that the banking stock is taking a hit in two period of crisis 1997 - 1999 and 2007 - 2009. Therefore, Policy maker should keep and eye in the condition of the banking system while using it to help economic recovery. Goverment should focus in controling Bad Debt. I will show you the visualization of Bad Debt in time of crisis'),
+
+
+    html.Div([
+        html.H1('Banking Industry Bad Debt Heatmap', style={'textAlign': 'center'}),
+        dcc.RadioItems(id='mapyear',
+                       options=[
+                           {'label': '2007', 'value': '2007'},
+                           {'label': '2008', 'value': '2008'},
+                           {'label': '2009', 'value': '2009'}
+                           ],
+                       value='2007',
+                       labelStyle={'display': 'inline-block'}),  
+        dcc.Graph(id="heatmap"),
+        html.P('From the heat maps, we notice that bad debt was cool in 2007. Then when the downturn happened in 2008, the heat started to increase, and finally most of the country bad debt cooled down in 2009. This means that controlling the bad debt is also a part of the game plan when creating counter cyclical policy in an economic downturn.'),
+        html.P('In conclusion, the graph and data from  GDP growth (annual %), real interest rate (%), domestic credit to the private sector by banks (% of GDP), lending interest rate (%), and bank non-performing loans to total gross loans (%) support my argument that reasonable growth of bank loans and manageable non-performing loans will help the economy recover after a downturn.')
+    ],style={'width': '100%', 'float': 'right', 'display': 'inline-block'})
+
 
 ])
 
