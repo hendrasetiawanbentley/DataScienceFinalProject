@@ -10,7 +10,6 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 server = app.server
 
-df = pd.read_csv('dashboardready1.csv')
 
 top_markdown_text = '''
 This is my first deployed app
