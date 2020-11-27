@@ -215,5 +215,30 @@ app.layout = html.Div([
 
 ])
 
+@app.callback(
+    dash.dependencies.Output("heatmap", "figure"), 
+    [dash.dependencies.Input("mapyear", "value")])
+
+def display_map(mapyear):
+    
+    dfjoinyearselected=dfjoin.loc[dfjoin['Year']==int(mapyear)]
+
+    fig = px.choropleth(dfjoinyearselected, locations="iso_alpha",
+                    color="Bank nonperforming loans to total gross loans (%)", # lifeExp is a column of gapminder
+                    hover_name="country", # column to add to hover information
+                    color_continuous_scale=px.colors.sequential.OrRd)
+    return fig            
+                 
+            
+@app.callback(
+    dash.dependencies.Output("time-series-chart", "figure"), 
+    [dash.dependencies.Input("ticker", "value")])
+
+def display_time_series(ticker):
+    fig = px.line(morgan, x=morgan.index, y=morgan['Open'])
+    if ticker=="gm":
+        fig = px.line(gm, x=gm.index, y=gm['Open'])
+    return fig
+
 if __name__ == '__main__':
     app.run_server(debug=True)
