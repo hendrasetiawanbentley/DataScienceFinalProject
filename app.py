@@ -240,5 +240,85 @@ def display_time_series(ticker):
         fig = px.line(gm, x=gm.index, y=gm['Open'])
     return fig
 
+@app.callback(
+    dash.dependencies.Output('crossfilter-indicator-scatter', 'figure'),
+    [dash.dependencies.Input('crossfilter-xaxis-column', 'value'),
+     dash.dependencies.Input('crossfilter-yaxis-column', 'value'),
+     dash.dependencies.Input('crossfilter-xaxis-type', 'value'),
+     dash.dependencies.Input('crossfilter-yaxis-type', 'value'),
+     dash.dependencies.Input('crossfilter-year--slider', 'value')])
+
+def update_graph(xaxis_column_name, yaxis_column_name,
+                 xaxis_type, yaxis_type,
+                 year_value):
+    dff = df[df['Year'] == year_value]
+
+    fig = px.scatter(x=dff[dff['Indicator Name'] == xaxis_column_name]['Value'],
+            y=dff[dff['Indicator Name'] == yaxis_column_name]['Value'],
+            hover_name=dff[dff['Indicator Name'] == yaxis_column_name]['Country Name']
+            )
+
+    fig.update_traces(customdata=dff[dff['Indicator Name'] == yaxis_column_name]['Country Name'])
+
+    fig.update_xaxes(title=xaxis_column_name, type='linear' if xaxis_type == 'Linear' else 'log')
+
+    fig.update_yaxes(title=yaxis_column_name, type='linear' if yaxis_type == 'Linear' else 'log')
+
+    fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest')
+
+    return fig
+
+
+def create_time_series(dff, axis_type, title):
+
+    fig = px.scatter(dff, x='Year', y='Value')
+
+    fig.update_traces(mode='lines+markers')
+
+    fig.update_xaxes(showgrid=False)
+
+    fig.update_yaxes(type='linear' if axis_type == 'Linear' else 'log')
+
+    fig.add_annotation(x=0, y=0.85, xanchor='left', yanchor='bottom',
+                       xref='paper', yref='paper', showarrow=False, align='left',
+                       bgcolor='rgba(255, 255, 255, 0.5)', text=title)
+
+    fig.update_layout(height=225, margin={'l': 20, 'b': 30, 'r': 10, 't': 10})
+
+    return fig
+
+
+@app.callback(
+    dash.dependencies.Output('x-time-series', 'figure'),
+    [dash.dependencies.Input('countryselection', 'value'),
+     dash.dependencies.Input('vartimeseriesx', 'value'),
+     dash.dependencies.Input('vartimeseriesx', 'value')
+     ])
+
+def update_x_timeseries(hoverData, yaxis_column_name, axis_type):
+    country_name = hoverData
+    dff = df[df['Country Name'] == country_name]
+    dff = dff[dff['Indicator Name'] == yaxis_column_name]
+    axis_type='Linear'
+    title = '<b>{}</b><br>{}'.format(country_name, yaxis_column_name)
+    return create_time_series(dff, axis_type, title)
+
+
+
+
+@app.callback(
+    dash.dependencies.Output('y-time-series', 'figure'),
+    [dash.dependencies.Input('countryselection', 'value'),
+     dash.dependencies.Input('crossfilter-yaxis-column', 'value')
+     ])
+
+def update_y_timeseries(hoverData, xaxis_column_name):
+    country_name = hoverData
+    dff = df[df['Country Name'] == country_name]
+    dff = dff[dff['Indicator Name'] == 'GDP growth (annual %)']
+    axis_type='Linear'
+    title = '<b>{}</b><br>{}'.format(country_name, xaxis_column_name)
+    return create_time_series(dff, axis_type, title)
+
 if __name__ == '__main__':
     app.run_server(debug=True)
