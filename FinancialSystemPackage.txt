@@ -1,0 +1,5 @@
+Bank nonperforming loans to total gross loans (%)
+Domestic credit to private sector by banks (% of GDP)
+Lending interest rate (%)
+Real interest rate (%)
+GDP growth (annual %)
