@@ -54,7 +54,16 @@ dffromwbbaddebt=dffromwbbaddebt.rename(columns={"Value": "Bank nonperforming loa
 dffromwbbankcredit=dffromwbbankcredit.rename(columns={"Value": "Domestic credit to private sector by banks (% of GDP)"})
 dfjoin = pd.merge(dfs, dffromwbbaddebt, on=['country'])
 
-
+import quandl
+# pandas for data manipulation
+import pandas as pd
+from matplotlib import pyplot as plt
+from matplotlib.dates import MonthLocator, DateFormatter
+quandl.ApiConfig.api_key = 'zNSVkNFKh_WNvSTkbvb9'
+# Retrieve Morgan Stanly data from Quandl
+morgan= quandl.get('WIKI/MS')
+# Retrieve the Citigroup data from Quandl
+gm = quandl.get('WIKI/C')
 
 
 
