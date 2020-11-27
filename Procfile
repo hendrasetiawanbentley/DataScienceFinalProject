@@ -1,1 +1,1 @@
-web: gunicorn Clopethmap:server
+web: gunicorn App:server
