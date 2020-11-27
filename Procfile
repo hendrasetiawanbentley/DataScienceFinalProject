@@ -1,1 +1,1 @@
-web: gunicorn Dashboard_ver1:server
+web: gunicorn Clopethmap:server
