@@ -73,7 +73,7 @@ app.layout = html.Div([
             html.H1('Navigate through Turbulent Economic Period Using Banking Credit as a Fuel for the Economy', style={'textAlign': 'center'}),
             html.H4('(Cross Country and Past Economic Downturn Analysis)', style={'textAlign': 'center'}),
             ], style={'display': 'inline-block', 'width': '100%'}),
-        html.P('In this pandemic, we should activate all of the resources that we have to get our economy back in a better position as soon as possible. Bank loans are very important tool because we know that in the Covid19 pandemic aggregate of demand is taking a hard hit. To fight this shock, Governments tend to lower their interest rate to help the economy. The scatter plot quadrants of real interest rate, Lending Interest rate and GPD annual growth show the movement to a lower level of interest rate during and after the economic downturn', className='my-class', id='my-p-element'),
+        html.P('In this pandemic, we should activate all of the resources that we have to get our economy back in a better position as soon as possible. Bank loans are very important tool because we know that, in the Covid19 pandemic, aggregate of demand is taking a hard hit. To fight this shock, Governments tend to lower their interest rate to help the economy. The scatter plot quadrants of real interest rate, Lending Interest rate and GPD annual growth show the movement to a lower level of interest rate during and after the economic downturn', className='my-class', id='my-p-element'),
     ], style={
         'borderBottom': 'thin lightgrey solid',
         'backgroundColor': 'rgb(250, 250, 250)',
@@ -129,7 +129,7 @@ app.layout = html.Div([
     html.Div([ html.H4(' ') ], style={'display': 'inline-block', 'width': '2%'}),
     
     html.Div([
-         html.H4('Real Interest Rate Interpretation'),
+         html.H3('Real Interest Rate and GDP Annual Growth Scatter Plot Interpretation'),
          html.P('From this scatter plot in 1997, we know that most of the countries were hovering between 0% to 10% annual GDP growth and between 0% to 10% real interest rate.', className='v', id='v'),
          html.P('If you change the slider to 1998, the graph showed that many countries fell down to lower annual GDP growth. This means that countries with high annual GDP growth a year before experienced a downward pressure.', className='c', id='c'),
          html.P('In 1999 (year after economic downturn), we can notice that there is an increase in the number of countries with low real interest rate. This can be a sign that governments try to increase bank lending by lowering their interest rates.', className='f', id='f'),
