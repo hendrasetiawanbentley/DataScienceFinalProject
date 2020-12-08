@@ -129,7 +129,7 @@ app.layout = html.Div([
     html.Div([ html.H4(' ') ], style={'display': 'inline-block', 'width': '2%'}),
     
     html.Div([
-         html.H4('Interpretation'),
+         html.H4('Real Interest Rate Interpretation'),
          html.P('From this scatter plot in 1997, we know that most of the countries were hovering between 0% to 10% annual GDP growth and between 0% to 10% real interest rate.', className='v', id='v'),
          html.P('If you change the slider to 1998, the graph showed that many countries fell down to lower annual GDP growth. This means that countries with high annual GDP growth a year before experienced a downward pressure.', className='c', id='c'),
          html.P('In 1999 (year after economic downturn), we can notice that there is an increase in the number of countries with low real interest rate. This can be a sign that governments try to increase bank lending by lowering their interest rates.', className='f', id='f'),
@@ -153,7 +153,7 @@ app.layout = html.Div([
     html.Div([
         
         html.Div([
-            html.H4('Investigation to Individual Country Time Series of Real Interest Rates and Lending Interest Rates'),
+            html.H4('Investigation to Individual Country Real Interest Rates and Lending Interest Rates Time Series Graph'),
             html.P('To give a solid evidence that countries in the world were trying to lower the rates as an effort to increase bank lending in the turbulent times, We can see from the time series variable below, that almost everytime GDP Annual Growth decline, lending interest rate and real interest rate is decline mostly in the year of crisis and one year after (Crisis Period 1997-1999 and 2007-2009. For most Asian Region, This is happening in 1997 - 1999 period and for most European, North America,South America and Mediterania Region, This trend happening in 2007 and 2009 period )')
         
         ], style={
@@ -185,8 +185,8 @@ app.layout = html.Div([
    
       html.Div([
         html.H4('Banking Industry Itself'),
-        html.P('Based on the data, I provide evidence that most of the countries try to lower its interest rate and push more banking lending. In the otherside, Policy makers also need to maintain the banking industry itself to make sure that economic crisis not bring a financial system catastrophy'),
-        html.P('The first signal is the banking stock. We can see how the movement of banking stock in time of economic donwturn')
+        html.P('Policy makers also need to maintain the banking industry itself to make sure that economic crisis not bring a financial system catastrophy'),
+        html.P('Bank stock will signal a condition of banking industry. In the economic crisis period 1998 and 2008, We can see the decrease of bank\' stock value')
     ], style={'width': '100%', 'display': 'inline-block'}),
       
       dcc.Dropdown(id='ticker',options=[{'label': 'Morgan Stanley', 'value':1},
@@ -208,8 +208,8 @@ app.layout = html.Div([
                        value='2007',
                        labelStyle={'display': 'inline-block'}),  
         dcc.Graph(id="heatmap"),
-        html.P('From the heat maps, we notice that bad debt was cool in 2007. Then when the downturn happened in 2008, the heat started to increase, and finally most of the country bad debt cooled down in 2009. This means that controlling the bad debt is also a part of the game plan when creating counter cyclical policy in an economic downturn.'),
-        html.P('In conclusion, the graph and data from  GDP growth (annual %), real interest rate (%), domestic credit to the private sector by banks (% of GDP), lending interest rate (%), and bank non-performing loans to total gross loans (%) support my argument that reasonable growth of bank loans and manageable non-performing loans will help the economy recover after a downturn.')
+        html.P('From the heat maps, we notice that bad debt was cool in 2007. Then when the downturn happened in 2008, the heat started to increase, and finally most of the country heat cooled down in 2009. This means that controlling the bad debt is also a part of the game plan when creating counter cyclical policy in an economic downturn.'),
+        html.P('In conclusion, the Dashboard of  GDP growth (annual %), real interest rate (%), lending interest rate (%), and bank non-performing loans to total gross loans (%) shows that, historically, most of the developed country use Banking Credit to fight economic crisis, and This plan can utilize by developing country to fight the COVID19 economic crisis.')
     ],style={'width': '100%', 'float': 'right', 'display': 'inline-block'})
 
 
