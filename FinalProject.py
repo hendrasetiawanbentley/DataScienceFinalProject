@@ -80,7 +80,7 @@ with open('FinancialSystemPackage.txt') as f:
 
 
 dashboardready = pd.concat([selectedcountries1997, selectedcountries1998,selectedcountries1999,selectedcountries2007,selectedcountries2008,selectedcountries2009], sort=False)
-datauncleanda
+dashboardready.to_csv("dashboardready1.csv")
 
 #investigate the price of banking stock when crisis happens using API
 
